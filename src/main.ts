@@ -11,7 +11,7 @@ export function isPrerelease(arg: string): boolean {
 
 export function getTags(arg: string, optionLatest: boolean): string[] | null {
   const versionObj = semver.parse(arg)
-  if (versionObj === null) {
+  if (versionObj === null || semver.valid(arg) === null) {
     return null
   }
   const major = versionObj.major
