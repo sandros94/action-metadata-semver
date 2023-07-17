@@ -26,7 +26,7 @@ export function getTags(arg: string): string[] | null {
     const prereleaseArray = prereleases.split('-').filter(Boolean)
 
     // TODO: add check for general priority of prerelease tags (alpha, beta, rc, etc.), much like latest tag.
-    return [result, ...prereleaseArray]
+    return [versionObj.version, ...prereleaseArray]
   }
 }
 
