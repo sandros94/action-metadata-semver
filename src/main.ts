@@ -1,19 +1,21 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as semver from 'semver'
 
-async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+const version: string = core.getInput('version')
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+export function isPrerelease(arg: string): boolean {
+  const prerelease = semver.prerelease(arg)
+  return prerelease !== null
+}
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+export function getPrereleases(arg: string): (string | number)[] | null {
+  const prerelease = semver.prerelease(arg)
+  if (prerelease !== null) {
+    return Array.from(prerelease)
+  } else {
+    return null
   }
 }
 
-run()
+core.setOutput('isPreRelease', isPrerelease(version))
+core.setOutput('tags', getPrereleases(version))

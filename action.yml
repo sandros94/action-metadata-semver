@@ -1,11 +1,19 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Action Metadata Semver'
+description: 'This action takes in input a valid semver and outputs a list of tags that match the semver.'
+author: 'Sandros94'
 inputs:
-  milliseconds: # change this
+  version:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'A valid semver version.'
+  disableLatest:
+    required: false
+    description: 'Disable the latest tag from the output.'
+    default: 'false'
+outputs:
+  tags:
+    description: 'A list of tags that match the semver in the input.'
+  isPreRelease:
+    description: 'A boolean that indicates if the version is a pre-release.'
 runs:
   using: 'node16'
   main: 'dist/index.js'
