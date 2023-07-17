@@ -5,10 +5,10 @@ inputs:
   version:
     required: true
     description: 'A valid semver version.'
-  disableLatest:
+  enableLatest:
     required: false
     description: 'Disable the latest tag from the output.'
-    default: 'false'
+    default: 'true'
 outputs:
   tags:
     description: 'A list of tags that match the semver in the input.'

@@ -16,16 +16,25 @@ describe('isPrerelease', () => {
 describe('getPrereleases', () => {
   it('returns an array of pre-release components for a version with a pre-release tag', () => {
     const version = '1.2.3-beta.3-test'
-    expect(getTags(version)).toEqual(['1.2.3-beta.3-test', 'beta.3', 'test'])
+    const enableLatest = true
+    expect(getTags(version, enableLatest)).toEqual(['1.2.3-beta.3-test', 'beta.3', 'test'])
   })
 
   it('returns an array for a non pre-release version', () => {
     const version = '1.2.3'
-    expect(getTags(version)).toEqual(['1', '1.2', '1.2.3'])
+    const enableLatest = false
+    expect(getTags(version, enableLatest)).toEqual(['1', '1.2', '1.2.3'])
+  })
+
+  it('returns an array for a non pre-release version', () => {
+    const version = '1.2.3'
+    const enableLatest = true
+    expect(getTags(version, enableLatest)).toEqual(['1', '1.2', '1.2.3', 'latest'])
   })
 
   it('returns null for a version without a pre-release tag', () => {
     const version = 'a1.2.3'
-    expect(getTags(version)).toBeNull()
+    const enableLatest = true
+    expect(getTags(version, enableLatest)).toBeNull()
   })
 })
