@@ -30,27 +30,45 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getPrereleases = exports.isPrerelease = void 0;
+exports.getTags = exports.isPrerelease = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const semver = __importStar(__nccwpck_require__(1383));
 const version = core.getInput('version');
+const enableLatest = core.getInput('enableLatest') === 'true';
 function isPrerelease(arg) {
     const prerelease = semver.prerelease(arg);
     return prerelease !== null;
 }
 exports.isPrerelease = isPrerelease;
-function getPrereleases(arg) {
-    const prerelease = semver.prerelease(arg);
-    if (prerelease !== null) {
-        return Array.from(prerelease);
-    }
-    else {
+function getTags(arg, optionLatest) {
+    const versionObj = semver.parse(arg);
+    if (versionObj === null || semver.valid(arg) === null) {
         return null;
     }
+    const major = versionObj.major;
+    const minor = versionObj.minor;
+    const patch = versionObj.patch;
+    const latest = optionLatest ? 'latest' : '';
+    if (!isPrerelease(arg)) {
+        // TODO: add check for latest tag from available tags published to the repo (or should it be from the registry?).
+        return [
+            `${major}`,
+            `${major}.${minor}`,
+            `${major}.${minor}.${patch}`,
+            latest
+        ].filter(Boolean);
+    }
+    else {
+        const result = `${major}.${minor}.${patch}`;
+        const prereleases = versionObj.version.replace(result, '').trim();
+        const prereleaseArray = prereleases.split('-').filter(Boolean);
+        // TODO: add check for general priority of prerelease tags (alpha, beta, rc, etc.), much like latest tag.
+        return [versionObj.version, ...prereleaseArray];
+    }
 }
-exports.getPrereleases = getPrereleases;
+exports.getTags = getTags;
 core.setOutput('isPreRelease', isPrerelease(version));
-core.setOutput('tags', getPrereleases(version));
+core.setOutput('tags', getTags(version, enableLatest));
 
 
 /***/ }),
