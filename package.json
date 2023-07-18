@@ -4,10 +4,13 @@
   "private": true,
   "description": "This action takes in input a valid semver and outputs a list of tags that match the semver.",
   "main": "lib/main.js",
+  "engines": {
+    "node": "^18.0.0 || ^20.0.0"
+  },
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write '**/*.ts'",
-    "format-check": "prettier --check '**/*.ts'",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",

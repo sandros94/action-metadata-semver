@@ -1,5 +1,5 @@
-import { describe, expect, it } from '@jest/globals'
-import { isPrerelease, getTags } from '../src/main'
+import {describe, expect, it} from '@jest/globals'
+import {isPrerelease, getTags} from '../src/main'
 
 describe('isPrerelease', () => {
   it('returns true for a version with a pre-release tag', () => {
@@ -17,7 +17,11 @@ describe('getPrereleases', () => {
   it('returns an array of pre-release components for a version with a pre-release tag', () => {
     const version = '1.2.3-beta.3-test'
     const enableLatest = true
-    expect(getTags(version, enableLatest)).toEqual(['1.2.3-beta.3-test', 'beta.3', 'test'])
+    expect(getTags(version, enableLatest)).toEqual([
+      '1.2.3-beta.3-test',
+      'beta.3',
+      'test'
+    ])
   })
 
   it('returns an array for a non pre-release version', () => {
@@ -29,7 +33,12 @@ describe('getPrereleases', () => {
   it('returns an array for a non pre-release version', () => {
     const version = '1.2.3'
     const enableLatest = true
-    expect(getTags(version, enableLatest)).toEqual(['1', '1.2', '1.2.3', 'latest'])
+    expect(getTags(version, enableLatest)).toEqual([
+      '1',
+      '1.2',
+      '1.2.3',
+      'latest'
+    ])
   })
 
   it('returns null for a version without a pre-release tag', () => {
